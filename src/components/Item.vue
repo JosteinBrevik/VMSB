@@ -1,5 +1,8 @@
+
+
+
 <template>
-  <div class="item">DETTE ER EN ITEM</div>
+  <div class="item" v-on:click="switchMsg()">{{msg}}</div>
 </template>
 
 <script>
@@ -7,6 +10,12 @@ export default {
   name: "itemBox",
   data() {
     return {};
+  },
+  props: ["msg"],
+  methods: {
+    switchMsg: function() {
+      this.msg = "CLICK";
+    }
   }
 };
 </script>

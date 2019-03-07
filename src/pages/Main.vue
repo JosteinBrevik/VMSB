@@ -1,24 +1,22 @@
-
-
-
 <template>
   <div id="app">
     <img src="../assets/logo.png">
     <h1>Hei</h1>
     <div v-if="seen">{{msg}}</div>
     <div id="searchBar">
-      <input v-model="searchString">
+      <input v-model="searchString" v-on:keyup.enter="doSearch">
       <button v-on:click="doSearch">Search</button>
       <p>You are searching: {{searchString}}</p>
       <p>You sent: {{search}}</p>
+      <p>{{this.searchedItems}}</p>
     </div>
 
-    <itemBox/>
+    <itemBox v-for="(item, index) in searchedItems" :key="index" v-bind:msg="item.text"></itemBox>
   </div>
 </template>
 
 <script>
-import itemBox from "../components/Item";
+import itemBox from "../components/Item.vue";
 
 export default {
   name: "app",
@@ -33,6 +31,14 @@ export default {
       searchString: "",
       search: "<<<"
     };
+  },
+  computed: {
+    searchedItems: function() {
+      const ss = this.searchString;
+      return this.items.filter(item => {
+        return ss ? item.text.toLowerCase().includes(ss.toLowerCase()) : false;
+      });
+    }
   },
   methods: {
     doSearch: function() {
@@ -52,3 +58,4 @@ export default {
   margin-top: 60px;
 }
 </style>
+
